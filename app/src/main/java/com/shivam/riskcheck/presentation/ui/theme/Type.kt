@@ -1,4 +1,4 @@
-package com.shivam.riskcheck.ui.theme
+package com.shivam.riskcheck.presentation.ui.theme
 
 import androidx.compose.material3.Typography
 import androidx.compose.ui.text.TextStyle
