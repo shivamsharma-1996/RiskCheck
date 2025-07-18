@@ -12,6 +12,11 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import com.shivam.riskcheck.presentation.ui.theme.RiskCheckTheme
+import androidx.navigation.compose.rememberNavController
+import com.shivam.riskcheck.presentation.navigation.BottomNavBar
+import com.shivam.riskcheck.presentation.navigation.BottomNavGraph
+import androidx.compose.runtime.getValue
+import androidx.navigation.compose.currentBackStackEntryAsState
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -19,29 +24,20 @@ class MainActivity : ComponentActivity() {
         enableEdgeToEdge()
         setContent {
             RiskCheckTheme {
-                Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
-                    Greeting(
-                        name = "Android",
-                        modifier = Modifier.padding(innerPadding)
+                val navController = rememberNavController()
+                val navBackStackEntry by navController.currentBackStackEntryAsState()
+                val currentRoute = navBackStackEntry?.destination?.route
+                Scaffold(
+                    modifier = Modifier.fillMaxSize(),
+                    bottomBar = {
+                        BottomNavBar(navController = navController, currentRoute = currentRoute)
+                    }
+                ) { innerPadding ->
+                    BottomNavGraph(
+                        navController = navController
                     )
                 }
             }
         }
-    }
-}
-
-@Composable
-fun Greeting(name: String, modifier: Modifier = Modifier) {
-    Text(
-        text = "Hello $name!",
-        modifier = modifier
-    )
-}
-
-@Preview(showBackground = true)
-@Composable
-fun GreetingPreview() {
-    RiskCheckTheme {
-        Greeting("Android")
     }
 }
